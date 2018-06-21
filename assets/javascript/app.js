@@ -20,38 +20,38 @@ $(document).ready(function () {
 
     var questions = {
         q1: {
-            qu: "triva question",
+            qu: "triva question 1",
             an: {
                 a: ": one",
-                b: ": two",
+                b: ": correct",
                 c: ": three",
                 d: ": four",
             },
-            cor: "b",
+            cor: 1,
             im: "#",
             sou: "#",
         },
         q2: {
-            qu: "question",
+            qu: "trivia question 2",
             an: {
-                a: ": one",
-                b: ": two",
-                c: ": three",
-                d: ": four",
+                a: ": correct",
+                b: ": 2two",
+                c: ": 2three",
+                d: ": 2four",
             },
-            cor: "b",
+            cor: 0,
             im: "#",
             sou: "#",
         },
         q3: {
-            qu: "question",
+            qu: "trivia question 3",
             an: {
-                a: ": one",
-                b: ": two",
-                c: ": three",
-                d: ": four",
+                a: ": 3one",
+                b: ": 3two",
+                c: ": correct",
+                d: ": 3four",
             },
-            cor: "b",
+            cor: 2,
             im: "#",
             sou: "#",
         }
@@ -59,13 +59,11 @@ $(document).ready(function () {
     var quest = Object.keys(questions);
     var counter = 0;
     var answerChosen = false;
-    console.log(quest);
-
-
-
+    var right = 0;
+    var wrong = 0;
 
     function loadInstructions() {
-        $("#sub-head").text("Choose the correct answer in the time allowed, or else...")
+        $("#sub-head").html("'Choose the correct answer in the time allowed, or else...'<br>")
     }
     loadInstructions();
 
@@ -76,7 +74,18 @@ $(document).ready(function () {
         $("#sub-head").append(startBtn);
     }
 
+    function clickStart() {
+        $("#start-button").on("click", function () {
+            //    while(counter < quest.length){
+            popQuiz();
+
+        });
+    }
+
+
+
     start();
+    clickStart();
 
     function makeTimer() {
         var timer = ("<div>");
@@ -84,9 +93,8 @@ $(document).ready(function () {
         timer.attr("id", "begin");
     }
 
-    // console.log(questions[quest[counter]].an[0])
-
-    function popQuiz() {
+    function displayQuestion() {
+        var correct = questions[quest[counter]].cor;
 
 
         var questionDiv = $("<div>");
@@ -95,60 +103,71 @@ $(document).ready(function () {
 
         var optionsDiv = $("<div>");
         optionsDiv.attr("id", "options-list");
+        var questAnswer = questionDiv.append(optionsDiv)
+        console.log(questions[quest[counter]].qu)
+        console.log(questionDiv)
 
-    
-        $("#question-box").append(questionDiv).append(optionsDiv);
+        $("#question-box").html(questAnswer);
 
         var options = Object.keys(questions[quest[counter]].an);
         var values = Object.values(questions[quest[counter]].an);
+
 
         for (var i = 0; i < 4; i++) {
             var opt = $("<button>");
             var optConcat = (options[i] + values[i]);
             opt.addClass("btn btn-secondary").attr("id", [i]);
             opt.append(optConcat);
-            $("#options-list").append(opt);
+            $("#options-list").append(opt).append("<br>");
             console.log(optConcat)
         }
 
+        $(".btn-secondary").on("click", function (event) {
+            // console.log(answerChosen);
+            var chosen = event.target.id;
+            console.log(chosen);
+            console.log(correct);
 
+            if (chosen == correct && counter < quest.length - 1) {
+                alert("yay, you chose correctly")
+                right++
+                answerChosen = true
+                nextQuestion();
+            } else if (chosen != correct && counter < quest.length - 1) {
+                alert("boo, you chose incorrectly")
+                wrong++
+                answerChosen = true;
+                nextQuestion();
+            } else if (chosen == correct && counter < quest.length) {
+                alert("yay, you chose correctly");
+                right++;
+                $("#question-box").html("game over")
+            } else if (chosen != correct && counter < quest.length) {
+                alert("boo, you chose incorrectly")
+                wrong++
+                $("#question-box").html("game over")
 
+            }
 
+        });
 
     }
-    popQuiz();
-    // console.log(onDeck);
 
 
-
-    function beginGame() {
-        $("#start-button").on("click", function () {
-            $("#start-button").remove();
-            $("#timer").append(timer);
-            $("#question-box").append(quiz)
-        })
+    function nextQuestion() {
+        counter++;
+        answerChosen = false;
+        console.log(counter)
+        displayQuestion();
     }
-})
-
-// for (var i = 0; i < quest.length; i++) {
-//     var onDeck = questions[quest[i]];
-//     var ask = questions[quest[i]].qu;
-//     // var options = questions[quest[i]].an;
-//     var correct = questions[quest[i]].cor;
-//     var image = questions[quest[i]].im;
-//     var sound = questions[quest[i]].sou;
-// }
-//     if (answerChosen === false) {
-//         options.forEach( function (){
-//             var questList = $("<button>");
-//             questList.text(options[i]).addClass("what");
-//             $("#question-box").append(questList);
-//         })
-//         }
 
 
+    function popQuiz() {
+        $("#sub-head").html("<h1>Good Luck!</h1><br>");
+        if (answerChosen === false) {
+            displayQuestion();
+            console.log(answerChosen);
+        }
+    }
 
-// console.log(ask);
-// console.log(options);
-// console.log("first option", options[0]);
-// console.log(correct);
+});
