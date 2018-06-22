@@ -1,20 +1,7 @@
-//create obects that contain:
-//identifier
-//--question string
-//--multipile choice string
-//-----a
-//-----b
-//-----c
-//-----d
-//--correct answer
-//--image src
-//--sound src
-
 //create a jQuery element that loads the question and options with a timer
 //when timer is up, the correct answer is diplayed and the program moves to the next question
 //when a selection is picked, the timer stops and goes toward answer screen--noting wether the choice was right or wrong.
-//next question button
-//if answerPicked is true----move to another jQuery element that compares the answer picked and the correct answer
+
 
 $(document).ready(function () {
 
@@ -62,38 +49,93 @@ $(document).ready(function () {
     var right = 0;
     var wrong = 0;
 
+    var intervalID;
+    var currentTime;
+
+    var timer = {
+        timerCount: 2,
+        reset: function () {
+            clearInterval(intervalID);
+            timer.timerCount = 2
+            $("#timer").text(this.timerCount + " seconds")
+        },
+        start: function () {
+            intervalID = setInterval(timer.count, 1000);
+
+        },
+        stop: function () {
+            clearInterval(intervalId);
+        },
+        count: function () {
+            currentTime = timer.timerCount
+        
+            if (currentTime == -1) {
+                if (counter < quest.length){
+                    $("#sub-head").empty();
+                    $("#question-box").html("game over")
+                    
+                }
+                alert("times's up!");
+                wrong++;
+                answerChosen = true;
+                timer.reset();
+                nextQuestion();
+            }
+
+            if (currentTime != -1) {
+                timer.timerCount--;
+                $("#timer").text(currentTime + " seconds");
+                console.log(currentTime)
+            }
+        },
+    }
+  
+
     function loadInstructions() {
         $("#sub-head").html("'Choose the correct answer in the time allowed, or else...'<br>")
     }
     loadInstructions();
 
-    function start() {
+    function startButton() {
         var startBtn = $("<button>");
         startBtn.addClass("btn btn-danger").attr("id", "start-button");
         startBtn.text("Start");
         $("#sub-head").append(startBtn);
     }
 
+    function makeTimer() {
+        var timerDiv = $("<div>");
+        timerDiv.addClass("col-sm-12");
+        timerDiv.attr("id", "timer")
+        timerDiv.text(3 + " seconds");
+        timerDiv.append(timer);
+        $("#sub-head").html(timerDiv);
+        // timer.reset();
+        // timer.start();
+    }
+
     function clickStart() {
         $("#start-button").on("click", function () {
-            //    while(counter < quest.length){
             popQuiz();
+            makeTimer();
+            // timer.start();
 
         });
     }
 
 
 
-    start();
+    startButton();
     clickStart();
 
-    function makeTimer() {
-        var timer = ("<div>");
-        timer.addClass("timer");
-        timer.attr("id", "begin");
+
+    function calculateScore() {
+        var totalScore = (right / (quest.length)) * 100
+        var disScore = ("You answered", totalScore + "%", "of the questions correctly")
     }
 
     function displayQuestion() {
+        timer.start();
         var correct = questions[quest[counter]].cor;
 
 
@@ -121,31 +163,47 @@ $(document).ready(function () {
             $("#options-list").append(opt).append("<br>");
             console.log(optConcat)
         }
+        console.log(currentTime)
+        if (parseInt(currentTime) == 0) {
+            alert("Too late");
+            wrong++;
+            answerChosen = true;
+            nextQuestion();
+        } else if (parseInt(currentTime) == 0 && counter < quest.length) {
+            alert("too late");
+        }
 
         $(".btn-secondary").on("click", function (event) {
             // console.log(answerChosen);
             var chosen = event.target.id;
             console.log(chosen);
             console.log(correct);
+            cosnole.log(timer.timerCount)
 
-            if (chosen == correct && counter < quest.length - 1) {
-                alert("yay, you chose correctly")
-                right++
-                answerChosen = true
-                nextQuestion();
-            } else if (chosen != correct && counter < quest.length - 1) {
+            if (chosen != correct && counter < quest.length - 1) {
                 alert("boo, you chose incorrectly")
                 wrong++
                 answerChosen = true;
                 nextQuestion();
+
+            } else if (chosen == correct && counter < quest.length - 1) {
+                alert("yay, you chose correctly")
+                right++
+                answerChosen = true
+                nextQuestion();
+
             } else if (chosen == correct && counter < quest.length) {
                 alert("yay, you chose correctly");
                 right++;
+                $("#sub-head").empty();
                 $("#question-box").html("game over")
+
             } else if (chosen != correct && counter < quest.length) {
                 alert("boo, you chose incorrectly")
                 wrong++
+                $("#sub-head").empty();
                 $("#question-box").html("game over")
+
 
             }
 
@@ -155,6 +213,7 @@ $(document).ready(function () {
 
 
     function nextQuestion() {
+        makeTimer();
         counter++;
         answerChosen = false;
         console.log(counter)
