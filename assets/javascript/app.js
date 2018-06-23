@@ -1,4 +1,3 @@
-//create a jQuery element that loads the question and options with a timer
 //when timer is up, the correct answer is diplayed and the program moves to the next question
 //when a selection is picked, the timer stops and goes toward answer screen--noting wether the choice was right or wrong.
 
@@ -64,32 +63,33 @@ $(document).ready(function () {
 
         },
         stop: function () {
-            clearInterval(intervalId);
+            clearInterval(intervalID);
         },
         count: function () {
             currentTime = timer.timerCount
-        
             if (currentTime == -1) {
-                if (counter < quest.length){
+                if (currentTime == -1 && counter < quest.length) {
+                    timer.stop();
                     $("#sub-head").empty();
                     $("#question-box").html("game over")
-                    
-                }
-                alert("times's up!");
-                wrong++;
-                answerChosen = true;
-                timer.reset();
-                nextQuestion();
-            }
 
+                } else {
+                    alert("times's up!");
+                    wrong++;
+                    answerChosen = true;
+                    timer.reset();
+                    nextQuestion();
+                }
+            }
             if (currentTime != -1) {
                 timer.timerCount--;
                 $("#timer").text(currentTime + " seconds");
                 console.log(currentTime)
             }
+
         },
     }
-  
+
 
     function loadInstructions() {
         $("#sub-head").html("'Choose the correct answer in the time allowed, or else...'<br>")
@@ -120,6 +120,7 @@ $(document).ready(function () {
             makeTimer();
             // timer.start();
 
+
         });
     }
 
@@ -127,6 +128,7 @@ $(document).ready(function () {
 
     startButton();
     clickStart();
+
 
 
     function calculateScore() {
@@ -178,29 +180,33 @@ $(document).ready(function () {
             var chosen = event.target.id;
             console.log(chosen);
             console.log(correct);
-            cosnole.log(timer.timerCount)
+            console.log(timer.timerCount)
 
             if (chosen != correct && counter < quest.length - 1) {
                 alert("boo, you chose incorrectly")
                 wrong++
                 answerChosen = true;
+                timer.reset();
                 nextQuestion();
 
             } else if (chosen == correct && counter < quest.length - 1) {
                 alert("yay, you chose correctly")
                 right++
-                answerChosen = true
+                answerChosen = true;
+                timer.reset();
                 nextQuestion();
 
             } else if (chosen == correct && counter < quest.length) {
                 alert("yay, you chose correctly");
                 right++;
+                timer.stop();
                 $("#sub-head").empty();
                 $("#question-box").html("game over")
 
             } else if (chosen != correct && counter < quest.length) {
                 alert("boo, you chose incorrectly")
-                wrong++
+                wrong++;
+                timer.stop();
                 $("#sub-head").empty();
                 $("#question-box").html("game over")
 
@@ -227,6 +233,7 @@ $(document).ready(function () {
             displayQuestion();
             console.log(answerChosen);
         }
+
     }
 
 });
