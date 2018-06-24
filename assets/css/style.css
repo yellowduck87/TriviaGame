@@ -1,3 +1,57 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+}
+
 .btn-secondary {
     clear: both;
+    background: none;
+    color:#0D0C0C;
+}
+
+#info-img {
+    width: 400px;
+    border: #0D0C0C 3px solid;
+    border-radius: 2px;
+}
+
+#header {
+    padding: 20px 30px 20px 30px;
+    font-family: 'Oleo Script', cursive;
+    font-size: 120px;
+    text-align: center;
+    color: #FFBA17;
+    -webkit-text-stroke-width: 3px;
+   -webkit-text-stroke-color: black;
+    background-image: url(paint_swirls.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#sub-head {
+    text-align: center;
+}
+
+#question-box {
+    margin-top: 20px;
+    margin-left: 85px;
+}
+
+#start-button {
+   font-size: 40px;
+   padding: 5px 20px 5px 20px;
+}
+
+#start-button:hover {
+    border: #FFBA17 solid 3px;
+    background: #FF5F46;
+}
+
+#timer, h2 {
+    color: #6E1349;
+    font-weight: bold;
+    text-align: center;
+}
+
+h3, h1 {
+    text-align: center;
 }
