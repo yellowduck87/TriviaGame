@@ -1,5 +1,4 @@
-//when timer is up, the correct answer is diplayed and the program moves to the next question
-//when a selection is picked, the timer stops and goes toward answer screen--noting wether the choice was right or wrong.
+
 $(document).ready(function () {
 
     var questions = {
@@ -7,21 +6,21 @@ $(document).ready(function () {
             qu: "How many different sounds does a chicken make to communicate?",
             an: {
                 a: ": cluck, cluck",
-                b: ": correct More than 200 distinct cheeps and chirps.",
+                b: ": More than 200 distinct cheeps and chirps.",
                 c: ": Almost 500 crazy chicken sounds!",
                 d: ": 27 sounds",
             },
             cor: 1,
-            corStr: "More than 200 distinct cheeps and chirps.",
+            corStr: "more than 200 distinct cheeps and chirps.",
             im: "assets/images/chicken.jpg",
             sou: "#",
         },
         q2: {
             qu: "Which bird is the smartest?",
             an: {
-                a: ": correct a crow",
+                a: ": the crow",
                 b: ": the dodo",
-                c: ": a mockingjay ",
+                c: ": the mockingjay ",
                 d: ": the lyre bird",
             },
             cor: 0,
@@ -34,12 +33,129 @@ $(document).ready(function () {
             an: {
                 a: ": as big as a thumbnail",
                 b: ": the size of a grain of rice",
-                c: ": correct pea size",
+                c: ": the size of a pea",
                 d: ": 'this big'",
             },
             cor: 2,
-            corStr: "pea size",
+            corStr: "the size of a pea",
             im: "assets/images/hummingbird.png",
+            sou: "#",
+        },
+        q4: {
+            qu: "Cardinals like to cover themselves in what thing? ",
+            an: {
+                a: ": Snow",
+                b: ": Pollen",
+                c: ": Ants",
+                d: ": Honey",
+            },
+            cor: 2,
+            corStr: "Ants",
+            im: "assets/images/crazy.jpg",
+            sou: "#",
+        },
+        q5: {
+            qu: "What about the ostrich is the biggest, relativeley, out of any any animal?",
+            an: {
+                a: ": It's eyes",
+                b: ": It's personality",
+                c: ": It's legs",
+                d: ": It's feathers",
+            },
+            cor: 0,
+            corStr: "It's eyes",
+            im: "assets/images/ostrich.jpg",
+            sou: "#",
+        },
+        q6: {
+            qu: "Which bird is paranoid enough to sleep with its eyes open?",
+            an: {
+                a: ": penguins",
+                b: ": Big Bird",
+                c: ": ducks",
+                d: ": eagles",
+            },
+            cor: 2,
+            corStr: "ducks",
+            im: "assets/images/duck.jpg",
+            sou: "#",
+        },
+        q7: {
+            qu: "Kiwis have a few unusual features for birds, including:",
+            an: {
+                a: ": adept accounting skills",
+                b: ": nostrils at the point of the beak",
+                c: ": an extra 6 bones",
+                d: ": fireproof feathers",
+            },
+            cor: 1,
+            corStr: "nostrils at the point of the beak",
+            im: "assets/images/kiwi.jpg",
+            sou: "#",
+        },
+        q8: {
+            qu: "What parrot is known to have the largest human language vocabulary?",
+            an: {
+                a: ": the african gray parrot",
+                b: ": the macaw",
+                c: ": the cockatoo",
+                d: ": the night parrot",
+            },
+            cor: 0,
+            corStr: "the african gray parrot",
+            im: "assets/images/parrot.jpg",
+            sou: "#",
+        },
+        q9: {
+            qu: "In China, what strange bird product is a delicacy?",
+            an: {
+                a: ": poo",
+                b: ": toes",
+                c: ": feathers",
+                d: ": nests",
+            },
+            cor: 3,
+            corStr: "nests",
+            im: "assets/images/nest.jpg",
+            sou: "#",
+        },
+        q10: {
+            qu: "THe Bassian Thrusher sometimes flushes prey by:",
+            an: {
+                a: ": karate",
+                b: ": yodeling",
+                c: ": yelling",
+                d: ": farting",
+            },
+            cor: 3,
+            corStr: "farting",
+            im: "assets/images/argument.jpg",
+            sou: "#",
+        },
+        q11: {
+            qu: "What it is that a woodpecker pecks for?",
+            an: {
+                a: ": acorn storage",
+                b: ": mating calls",
+                c: ": bugs",
+                d: ": morse code",
+            },
+            cor: 0,
+            corStr: "acorn storage",
+            im: "assets/images/woodpecker.png",
+            sou: "#",
+        },
+        q12: {
+            qu: "Yawn sympathy isn't only for humans and thier dogs. What bird can catch yawns?",
+            an: {
+                a: ": penguins",
+                b: ": storks",
+                c: ": budgies",
+                d: ": flamingos",
+            },
+            cor: 2,
+            corStr: "budgies",
+            im: "assets/images/yawn.jpg",
             sou: "#",
         }
     }
@@ -213,9 +329,6 @@ $(document).ready(function () {
 
     }
 
-    // var correctRes = "<h3>Yes! the correct answer was " + questions[quest[counter]].corStr + "</h3>";
-    // var incorrectRes = "<h3>Wrong, the correct answer was " + questions[quest[counter]].corStr + "<h3>";
-
     function makeImg() {
         var getImg = $("<img>");
         getImg.attr("src", questions[quest[counter]].im).attr("id", "info-img");
@@ -255,7 +368,21 @@ $(document).ready(function () {
         console.log(questions[quest[counter]].im)
     }
 
-
+    function playAgain() {
+        var again = $("<button>");
+        again.attr("id", "play-again").addClass("btn btn-danger");
+        again.text("Play Again?")
+        $("#sub-head").append(again);
+        counter = 0;
+        answerChosen = false;
+        wrong = 0;
+        right = 0;
+        $("#play-again").on("click", function (){
+            popQuiz();
+            makeTimer();
+        })
+    }
+ 
 
     function gameOver() {
         console.log("game over");
@@ -263,6 +390,7 @@ $(document).ready(function () {
         $("#question-box").html("<h1>Game Over</h1>");
         calculateScore();
         timer.stop();
+        playAgain();
     }
     
 

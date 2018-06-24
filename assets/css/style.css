@@ -36,12 +36,13 @@ body {
     margin-left: 85px;
 }
 
-#start-button {
+#start-button, #play-again {
    font-size: 40px;
    padding: 5px 20px 5px 20px;
 }
 
-#start-button:hover {
+#start-button:hover,
+#play-again:hover {
     border: #FFBA17 solid 3px;
     background: #FF5F46;
 }
