@@ -57,13 +57,13 @@ $(document).ready(function () {
         q5: {
             qu: "What about the ostrich is the biggest, relativeley, out of any any animal?",
             an: {
-                a: ": It's eyes",
-                b: ": It's personality",
-                c: ": It's legs",
-                d: ": It's feathers",
+                a: ": Its eyes",
+                b: ": Its personality",
+                c: ": Its legs",
+                d: ": Its feathers",
             },
             cor: 0,
-            corStr: "It's eyes",
+            corStr: "Its eyes",
             im: "assets/images/ostrich.jpg",
             sou: "#",
         },
